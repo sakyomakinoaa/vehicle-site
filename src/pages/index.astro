@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsTable from '../components/NewsTable.astro';
+import VehicleList from '../components/VehicleList.astro';
+import { SITE } from '../config';
+import { getNews, getVehicles, formatDate, isoDate } from '../lib/content';
+
+const news = await getNews();
+const vehicles = await getVehicles();
+const latest = news[0];
+---
+<BaseLayout>
+  <section class="board" aria-labelledby="site-title">
+    <h1 id="site-title" class="board-title">{SITE.name}</h1>
+    {latest ? (
+      <p class="board-line">
+        <span class="board-label">最新</span>
+        <time datetime={isoDate(latest.data.date)}>{formatDate(latest.data.date)}</time>
+        <a href={`/news/${latest.id}/`}>{latest.data.title}</a>
+      </p>
+    ) : (
+      <p class="board-line">準備中です。確認できたニュースから順に掲載します。</p>
+    )}
+  </section>
+
+  <section class="section" aria-labelledby="news-heading">
+    <div class="section-head">
+      <h2 id="news-heading">ニュース</h2>
+      <a href="/news/">ニュース一覧を見る</a>
+    </div>
+    {news.length > 0 ? (
+      <NewsTable items={news.slice(0, 5)} />
+    ) : (
+      <p class="empty">掲載できるニュースはまだありません。</p>
+    )}
+  </section>
+
+  <section class="section" aria-labelledby="vehicles-heading">
+    <div class="section-head">
+      <h2 id="vehicles-heading">車両</h2>
+      <a href="/vehicles/">車両一覧を見る</a>
+    </div>
+    {vehicles.length > 0 ? (
+      <VehicleList items={vehicles.slice(0, 5)} />
+    ) : (
+      <p class="empty">掲載できる車両ページはまだありません。</p>
+    )}
+  </section>
+</BaseLayout>

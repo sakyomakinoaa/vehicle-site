@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsTable from '../../components/NewsTable.astro';
+import { getNews } from '../../lib/content';
+
+const news = await getNews();
+---
+<BaseLayout title="ニュース">
+  <h1>ニュース</h1>
+  {news.length > 0 ? (
+    <NewsTable items={news} />
+  ) : (
+    <p class="empty">掲載できるニュースはまだありません。</p>
+  )}
+</BaseLayout>

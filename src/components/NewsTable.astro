@@ -1,0 +1,22 @@
+---
+import { formatDate, isoDate, showUnverified } from '../lib/content';
+
+interface Props {
+  items: Array<{ id: string; data: any }>;
+}
+const { items } = Astro.props;
+---
+<ul class="timetable">
+  {items.map((item) => (
+    <li>
+      <a href={`/news/${item.id}/`}>
+        <time datetime={isoDate(item.data.date)}>{formatDate(item.data.date)}</time>
+        <span class="op">{item.data.operator}</span>
+        <span class="hd">
+          {item.data.title}
+          {showUnverified && !item.data.verified && <span class="badge-draft">確認前</span>}
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>

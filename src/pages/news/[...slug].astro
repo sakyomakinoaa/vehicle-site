@@ -1,0 +1,42 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getNews, getVehicles, formatDate, isoDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const items = await getNews();
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const allVehicles = await getVehicles();
+const related = allVehicles.filter((v) => entry.data.vehicles.includes(v.id));
+---
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <article class="article">
+    <h1>{entry.data.title}</h1>
+    <p class="meta">
+      <time datetime={isoDate(entry.data.date)}>{formatDate(entry.data.date)}</time> / {entry.data.operator}
+    </p>
+    {entry.data.tags.length > 0 && (
+      <ul class="tags">
+        {entry.data.tags.map((t) => <li>{t}</li>)}
+      </ul>
+    )}
+    <p class="lead">{entry.data.summary}</p>
+    <Content />
+    <p class="source">
+      出典: <a href={entry.data.sourceUrl} rel="noopener noreferrer">{entry.data.sourceName}</a>
+    </p>
+    {related.length > 0 && (
+      <section class="related">
+        <h2>関連する車両</h2>
+        <ul>
+          {related.map((v) => <li><a href={`/vehicles/${v.id}/`}>{v.data.name}</a></li>)}
+        </ul>
+      </section>
+    )}
+    <p class="back"><a href="/news/">ニュース一覧に戻る</a></p>
+  </article>
+</BaseLayout>

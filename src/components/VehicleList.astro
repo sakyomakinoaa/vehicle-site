@@ -1,0 +1,21 @@
+---
+interface Props {
+  items: Array<{ id: string; data: any }>;
+}
+const { items } = Astro.props;
+---
+<ul class="vehicle-list">
+  {items.map((item) => (
+    <li>
+      <a href={`/vehicles/${item.id}/`}>
+        <span>
+          <span class="vehicle-name">{item.data.name}</span><br />
+          <span class="vehicle-meta">
+            {item.data.operator}{item.data.lines.length > 0 && ` / ${item.data.lines.join('、')}`}
+          </span>
+        </span>
+        <span class="status" data-status={item.data.status}>{item.data.status}</span>
+      </a>
+    </li>
+  ))}
+</ul>

@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VehicleList from '../../components/VehicleList.astro';
+import { getVehicles } from '../../lib/content';
+
+const vehicles = await getVehicles();
+---
+<BaseLayout title="車両">
+  <h1>車両</h1>
+  {vehicles.length > 0 ? (
+    <VehicleList items={vehicles} />
+  ) : (
+    <p class="empty">掲載できる車両ページはまだありません。</p>
+  )}
+</BaseLayout>

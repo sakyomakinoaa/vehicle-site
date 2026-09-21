@@ -1,0 +1,107 @@
+:root {
+  --steel: #e8ecef;   /* 車体の銀 */
+  --paper: #f7f9fa;
+  --ink: #16263d;     /* 濃紺 */
+  --rail: #5c6b7a;    /* 補助文字 */
+  --line: #c5cdd5;    /* 罫線 */
+  --band: #1f5fa8;    /* 車体の帯・リンク */
+  --led: #ffb000;     /* 行先表示器の琥珀 */
+  --notice: #ffe9a8;
+  --st-run: #1f5fa8;
+  --st-plan: #8a5a00;
+  --st-retire: #9a2b2b;
+  --st-done: #5c6b7a;
+  font-family: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--steel);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+a { color: var(--band); text-underline-offset: 0.2em; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--band); outline-offset: 2px; }
+
+.wrap { width: min(100% - 2.5rem, 62rem); margin-inline: auto; }
+
+.skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: #fff; padding: 0.5rem 1rem; z-index: 10; }
+.skip:focus { left: 0.5rem; top: 0.5rem; }
+
+/* ヘッダー: 車体の帯を模した二本線 */
+.site-header { background: var(--paper); box-shadow: 0 4px 0 var(--steel), 0 7px 0 var(--band); position: relative; }
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.9rem; }
+.brand { font-weight: 700; font-size: 1.125rem; color: var(--ink); text-decoration: none; }
+.site-nav { display: flex; gap: 1.5rem; }
+.site-nav a { color: var(--ink); text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid transparent; }
+.site-nav a:hover { border-bottom-color: var(--line); }
+.site-nav a[aria-current='page'] { border-bottom-color: var(--band); font-weight: 700; }
+
+.devbar { margin: 1.25rem 0 0; background: var(--notice); color: var(--ink); padding: 0.5rem 1rem; font-size: 0.875rem; }
+
+main { padding-block: 2rem 4rem; }
+
+/* 行先表示器 */
+.board { background: var(--ink); color: var(--led); padding: 1.75rem clamp(1rem, 4vw, 2.5rem); border-radius: 4px; font-family: 'DotGothic16', 'Zen Kaku Gothic New', monospace; margin-block: 1.5rem 3rem; }
+.board-title { margin: 0; font-size: clamp(1.75rem, 5vw, 3rem); line-height: 1.3; font-weight: 400; }
+.board-line { margin: 1rem 0 0; font-size: clamp(1rem, 2.6vw, 1.25rem); line-height: 1.6; }
+.board-label { border: 1px solid var(--led); padding: 0 0.5em; margin-right: 0.75em; }
+.board a { color: var(--led); text-underline-offset: 0.25em; }
+.board a:focus-visible { outline-color: var(--led); }
+.board time { margin-right: 0.75em; }
+
+.section { margin-block: 0 3rem; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
+.section-head h2 { margin: 0; font-size: 1.375rem; }
+
+/* ニュース一覧: 時刻表の行 */
+.timetable { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+.timetable li { border-bottom: 1px solid var(--line); }
+.timetable a { display: grid; grid-template-columns: 6.5rem 8rem 1fr; gap: 0.25rem 1rem; padding: 0.9rem 0.25rem; color: inherit; text-decoration: none; }
+.timetable time { font-variant-numeric: tabular-nums; color: var(--rail); }
+.timetable .op { color: var(--rail); }
+.timetable .hd { font-weight: 500; }
+.timetable a:hover .hd { text-decoration: underline; text-decoration-color: var(--band); text-underline-offset: 0.2em; }
+.badge-draft { display: inline-block; margin-left: 0.5em; font-size: 0.75rem; background: var(--notice); padding: 0 0.5em; }
+
+/* 車両一覧 */
+.vehicle-list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+.vehicle-list li { border-bottom: 1px solid var(--line); }
+.vehicle-list a { display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 1rem; align-items: center; padding: 1rem 0.25rem; color: inherit; text-decoration: none; }
+.vehicle-name { font-size: 1.5rem; font-weight: 700; line-height: 1.4; }
+.vehicle-meta { color: var(--rail); font-size: 0.9375rem; }
+.vehicle-list a:hover .vehicle-name { text-decoration: underline; text-decoration-color: var(--band); text-underline-offset: 0.2em; }
+.status { border: 1px solid currentColor; padding: 0 0.6em; font-size: 0.8125rem; border-radius: 2px; white-space: nowrap; }
+.status[data-status='運行中'] { color: var(--st-run); }
+.status[data-status='導入予定'] { color: var(--st-plan); }
+.status[data-status='引退予定'] { color: var(--st-retire); }
+.status[data-status='引退済み'] { color: var(--st-done); }
+
+.empty { padding: 1.25rem 0; color: var(--rail); border-top: 2px solid var(--ink); margin: 0; }
+
+/* 記事・車両ページ */
+.article { max-width: 42rem; }
+.article h1 { font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.5; margin: 0 0 0.5rem; }
+.article .meta { color: var(--rail); margin: 0 0 1.5rem; font-variant-numeric: tabular-nums; }
+.article .lead { font-size: 1.0625rem; font-weight: 500; }
+.article .source { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.related { margin-top: 2.5rem; }
+.related h2 { font-size: 1.125rem; margin: 0 0 0.5rem; }
+.related ul { margin: 0; padding-left: 1.25rem; }
+.tags { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tags li { border: 1px solid var(--line); padding: 0 0.6em; font-size: 0.8125rem; color: var(--rail); border-radius: 2px; }
+.back { margin-top: 2rem; }
+
+.site-footer { border-top: 1px solid var(--line); padding-block: 1.5rem 3rem; color: var(--rail); font-size: 0.875rem; }
+.site-footer p { margin: 0; }
+
+@media (max-width: 40rem) {
+  .timetable a { grid-template-columns: auto 1fr; }
+  .timetable .hd { grid-column: 1 / -1; }
+  .vehicle-list a { grid-template-columns: 1fr; }
+  .site-nav { gap: 1rem; }
+}
