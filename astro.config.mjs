@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-// 公開URLが決まったら site を書き換える(例: https://example.pages.dev)
+// 公開URL。独自ドメインを使うようになったら書き換える。
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://vehicle-site.2fmzsw62gb.workers.dev',
 });
