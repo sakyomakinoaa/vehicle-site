@@ -16,6 +16,9 @@ const news = defineCollection({
     // 関連する車両ページのID(src/content/vehicles/ のファイル名)
     vehicles: z.array(z.string()).default([]),
     verified: z.boolean().default(false),
+    // トップページの「ピックアップ」に載せたい記事だけ true にする。
+    // 何もtrueにしていない場合は、新着順で自動的に選ばれる。
+    featured: z.boolean().default(false),
   }),
 });
 

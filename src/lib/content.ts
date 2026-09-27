@@ -13,6 +13,14 @@ export async function getVehicles() {
   return all.sort((a, b) => a.data.name.localeCompare(b.data.name, 'ja'));
 }
 
+// トップページの「ピックアップ」用。featured: true が付いた記事を新着順で。
+// 1件もなければ、新着順の上位からcountで指定した件数を使う(これまで通りの動き)。
+export async function getPickupNews(count = 4) {
+  const all = await getNews();
+  const featured = all.filter((n) => n.data.featured);
+  return (featured.length > 0 ? featured : all).slice(0, count);
+}
+
 export function formatDate(d: Date) {
   const y = d.getUTCFullYear();
   const m = String(d.getUTCMonth() + 1).padStart(2, '0');
